@@ -16,7 +16,11 @@ services:
       timeout: 5s
       retries: 12
 
-  # Existing MinIO service/volume retained; the console is bound to localhost only.
+# При ошибке MinIO "file access denied" для /data/.minio.sys/tmp
+# Выполните на сервере из корня проекта:
+# Если контейнер запущен: sudo docker compose --env-file .env.production -f docker-compose.production.yml stop minio
+# Основная команда: sudo docker run --rm --user 0:0 -v bot_suggester_minio_data:/data busybox:1.36 sh -c 'chown -R 65532:65532 /data && chmod -R u+rwX /data'
+# Перезапуск контейнера: sudo docker compose --env-file .env.production -f docker-compose.production.yml up -d minio
   minio:
     image: cleanstart/minio
     container_name: bot-suggester-minio
@@ -169,7 +173,6 @@ networks:
     name: bot-suggester-proxy
 
 volumes:
-  # Explicit name preserves the volume created by the previously shared MinIO compose setup.
   minio_data:
     name: bot_suggester_minio_data
   postgres_data:
