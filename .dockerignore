@@ -1,0 +1,11 @@
+.git
+.venv
+__pycache__
+*.py[cod]
+.env
+.env.*
+!.env.production.example
+frontend/node_modules
+frontend/.next
+frontend/.env.local
+letsencrypt
